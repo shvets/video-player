@@ -96,7 +96,7 @@ public struct VideoPlayerView: View {
 //      else {
     if enableSwipe {
       //BaseVideoPlayerView(player: player)
-      VideoPlayer(player: player.player)
+      fullScreenVideoPlayer()
         .onAppear {
           player.update(mediaSource: mediaSource, startTime: startTime)
         }
@@ -112,7 +112,7 @@ public struct VideoPlayerView: View {
 //            playImmediately: playImmediately, commandCenterManager: CommandCenterManager(player: player)))
 //        .modifier(VideoBoundsModifier())
 
-        VideoPlayer(player: player.player)
+      fullScreenVideoPlayer()
           .onAppear {
             player.update(mediaSource: mediaSource, startTime: startTime)
           }
@@ -155,7 +155,7 @@ public struct VideoPlayerView: View {
   @ViewBuilder
   public func videoPlayer() -> some View {
     if enableSwipe {
-      VideoPlayer(player: player.player)
+      fullScreenVideoPlayer()
         .onAppear {
           player.update(mediaSource: mediaSource, startTime: startTime)
         }
@@ -175,7 +175,7 @@ public struct VideoPlayerView: View {
         }
     }
     else {
-      VideoPlayer(player: player.player)
+      fullScreenVideoPlayer()
         .onAppear {
           player.update(mediaSource: mediaSource, startTime: startTime)
         }
@@ -183,8 +183,19 @@ public struct VideoPlayerView: View {
         .modifier(VideoBoundsModifier())
     }
   }
-
 #endif
+
+  @ViewBuilder
+  public func fullScreenVideoPlayer() -> some View {
+    ZStack {
+      Color.black
+        .edgesIgnoringSafeArea(.all)
+
+      VStack {
+        VideoPlayer(player: player.player)
+      }
+    }
+  }
 
   public func reload(with mediaSource: MediaSource) {
     self.mediaSource = mediaSource
