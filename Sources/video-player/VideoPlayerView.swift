@@ -10,7 +10,7 @@ public struct VideoPlayerView: View {
   }
 
   @ObservedObject private var player: MediaPlayer
-  @Binding private var mediaSource: MediaSource
+  @Binding private var url: URL
   private var stopOnLeave: Bool = true
   private var displayPip: Bool = false
   private var enableSwipe: Bool = false
@@ -19,11 +19,11 @@ public struct VideoPlayerView: View {
 
   public var swipeChanged: (SwipeModifier.Directions) -> Void = {_ in }
 
-  public init(@ObservedObject player: MediaPlayer, mediaSource: Binding<MediaSource>, stopOnLeave: Bool = true, displayPip: Bool = false,
+  public init(@ObservedObject player: MediaPlayer, url: Binding<URL>, stopOnLeave: Bool = true, displayPip: Bool = false,
               enableSwipe: Bool = false, playImmediately: Bool = true, startTime: Binding<Double>,
               swipeChanged: @escaping (SwipeModifier.Directions) -> Void = {_ in }) {
     self.player = player
-    self._mediaSource = mediaSource
+    self._url = url
     self.stopOnLeave = stopOnLeave
     self.displayPip = displayPip
     self.enableSwipe = enableSwipe
@@ -57,7 +57,7 @@ public struct VideoPlayerView: View {
         .padding()
         .overlay(player.isInPipMode ?
             Button("Title") {
-              reload(with: mediaSource)
+              reload(with: url)
 
               player.play()
             } : nil)
@@ -79,7 +79,7 @@ public struct VideoPlayerView: View {
       .padding()
       .overlay(VideoPlayerControlsView(player: player, duration: player.duration), alignment: .bottom)
       .onAppear {
-        player.update(mediaSource: mediaSource, startTime: startTime)
+        player.update(url: url, startTime: startTime)
       }
       .modifier(mediaPlayerViewModifier)
   }
@@ -98,10 +98,10 @@ public struct VideoPlayerView: View {
       //BaseVideoPlayerView(player: player)
       fullScreenVideoPlayer()
         .onAppear {
-          player.update(mediaSource: mediaSource, startTime: startTime)
+          player.update(url: url, startTime: startTime)
         }
         .modifier(mediaPlayerViewModifier)
-        .modifier(VideoBoundsModifier())
+        //.modifier(VideoBoundsModifier())
         .modifier(SwipeModifier(handler: { direction in
           swipeChanged(direction)
         }))
@@ -114,10 +114,11 @@ public struct VideoPlayerView: View {
 
       fullScreenVideoPlayer()
           .onAppear {
-            player.update(mediaSource: mediaSource, startTime: startTime)
+            player.update(url: url, startTime: startTime)
           }
           .modifier(mediaPlayerViewModifier)
-        .modifier(VideoBoundsModifier())
+        //.modifier(VideoBoundsModifier())
+       // .navigationTitle(mediaSource!.name)
     }
 
 //      VideoPlayer(player: player.player)
@@ -160,7 +161,7 @@ public struct VideoPlayerView: View {
           player.update(mediaSource: mediaSource, startTime: startTime)
         }
         .modifier(mediaPlayerViewModifier)
-        .modifier(VideoBoundsModifier())
+        //.modifier(VideoBoundsModifier())
         .modifier(SwipeModifier(handler: { direction in
           swipeChanged(direction)
         }))
@@ -180,7 +181,7 @@ public struct VideoPlayerView: View {
           player.update(mediaSource: mediaSource, startTime: startTime)
         }
         .modifier(mediaPlayerViewModifier)
-        .modifier(VideoBoundsModifier())
+        //.modifier(VideoBoundsModifier())
     }
   }
 #endif
@@ -188,8 +189,8 @@ public struct VideoPlayerView: View {
   @ViewBuilder
   public func fullScreenVideoPlayer() -> some View {
     ZStack {
-      Color.black
-        .edgesIgnoringSafeArea(.all)
+//      Color.black
+//        .edgesIgnoringSafeArea(.all)
 
       VStack {
         VideoPlayer(player: player.player)
@@ -197,21 +198,18 @@ public struct VideoPlayerView: View {
     }
   }
 
-  public func reload(with mediaSource: MediaSource) {
-    self.mediaSource = mediaSource
+  public func reload(with url: URL) {
+    self.url = url
 
-    player.mediaSource = mediaSource
+    player.url = url
+
     player.setCurrentTime(.zero)
   }
 }
 
 struct VideoPlayerView_Previews: PreviewProvider {
   static var previews: some View {
-    VideoPlayerView(
-        player: MediaPlayer(),
-        mediaSource: Binding.constant(MediaSource(url: URL(string: "https://www.etvnet.com")!, name: "")),
-        stopOnLeave: false,
-        displayPip: false, startTime: Binding.constant(0.0)
-    )
+    VideoPlayerView(player: MediaPlayer(), url: Binding.constant(URL(string: "https://www.etvnet.com")!),
+        stopOnLeave: false, displayPip: false, startTime: Binding.constant(0.0))
   }
 }

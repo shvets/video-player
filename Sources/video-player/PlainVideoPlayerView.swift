@@ -12,18 +12,18 @@ public struct PlainVideoPlayerView: View {
 
   @ObservedObject private var player: MediaPlayer
   private var name: Binding<String>
-  @State private var mediaSource: MediaSource
+  @State private var url: URL
   private var stopOnLeave: Bool
   private var playImmediately: Bool
   private var enableSwipe: Bool
   private var swipeChanged: ((SwipeModifier.Directions) -> Void)?
 
-  public init(@ObservedObject player: MediaPlayer, name: Binding<String>, mediaSource: MediaSource, stopOnLeave: Bool = true,
+  public init(@ObservedObject player: MediaPlayer, name: Binding<String>, url: URL, stopOnLeave: Bool = true,
               playImmediately: Bool = true, enableSwipe: Bool = false,
               swipeChanged: ((SwipeModifier.Directions) -> Void)? = nil) {
     self.player = player
     self.name = name
-    self._mediaSource = State(initialValue: mediaSource)
+    self._url = State(initialValue: url)
     self.stopOnLeave = stopOnLeave
     self.playImmediately = playImmediately
     self.enableSwipe = enableSwipe
@@ -43,7 +43,7 @@ public struct PlainVideoPlayerView: View {
     if enableSwipe {
       BaseVideoPlayerView(player: player)
         .onAppear {
-          player.update(mediaSource: mediaSource, startTime: startTime)
+          player.update(url: url, startTime: startTime)
         }
         .modifier(mediaPlayerViewModifier)
         .modifier(SwipeModifier(handler: { direction in
@@ -56,7 +56,7 @@ public struct PlainVideoPlayerView: View {
     else {
       BaseVideoPlayerView(player: player)
         .onAppear {
-          player.update(mediaSource: mediaSource, startTime: startTime)
+          player.update(url: url, startTime: startTime)
         }
         .modifier(mediaPlayerViewModifier)
         .modifier(VideoBoundsModifier())
@@ -74,8 +74,6 @@ public struct PlainVideoPlayerView: View {
 
 struct PlainVideoPlayerView_Previews: PreviewProvider {
   static var previews: some View {
-    PlainVideoPlayerView(player: MediaPlayer(), name: Binding.constant("name"),
-        mediaSource: MediaSource(url: URL(string: "")!, name: "")
-    )
+    PlainVideoPlayerView(player: MediaPlayer(), name: Binding.constant("name"), url: URL(string: "")!)
   }
 }
