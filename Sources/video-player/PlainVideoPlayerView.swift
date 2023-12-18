@@ -64,7 +64,7 @@ public struct PlainVideoPlayerView: View {
 #else
     BaseVideoPlayerView(player: player)
       .onAppear {
-        player.update(mediaSource: mediaSource, startTime: startTime)
+        player.update(url: url, startTime: startTime)
       }
       .modifier(mediaPlayerViewModifier)
       .modifier(VideoBoundsModifier())

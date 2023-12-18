@@ -158,7 +158,7 @@ public struct VideoPlayerView: View {
     if enableSwipe {
       fullScreenVideoPlayer()
         .onAppear {
-          player.update(mediaSource: mediaSource, startTime: startTime)
+          player.update(url: url, startTime: startTime)
         }
         .modifier(mediaPlayerViewModifier)
         //.modifier(VideoBoundsModifier())
@@ -178,7 +178,7 @@ public struct VideoPlayerView: View {
     else {
       fullScreenVideoPlayer()
         .onAppear {
-          player.update(mediaSource: mediaSource, startTime: startTime)
+          player.update(url: url, startTime: startTime)
         }
         .modifier(mediaPlayerViewModifier)
         //.modifier(VideoBoundsModifier())
