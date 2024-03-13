@@ -19,12 +19,12 @@ public struct VideoPlayerView: View {
   private var playImmediately: Bool
   private var stopOnLeave: Bool
   private var enableSwipe: Bool
-  var parentViewActivated: ViewActivationModel
+  var parentViewActivated: PlayerActivationModel
   private var onMediaCompleted: (Bool) -> Void
 
   public init(player: MediaPlayer, url: Binding<URL>, name: Binding<String>, startTime: Binding<Double>,
               playImmediately: Bool = true, stopOnLeave: Bool = true, enableSwipe: Bool = false,
-              parentViewActivated: ViewActivationModel, onMediaCompleted: @escaping (Bool) -> Void) {
+              parentViewActivated: PlayerActivationModel, onMediaCompleted: @escaping (Bool) -> Void) {
     self.player = player
     self._url = url
     self._name = name
@@ -46,7 +46,7 @@ public struct VideoPlayerView: View {
       VideoPlayer(player: player.player) {
         VideoPlayerOverlay(name: $name, size: geometry.size, isFullScreen: $isFullScreen)
       }
-        .onReceive(parentViewActivated.$viewActivated) { newValue in
+        .onReceive(parentViewActivated.$playerActivated) { newValue in
           if newValue {
             deactivatePlayer()
           }
@@ -69,8 +69,10 @@ public struct VideoPlayerView: View {
   func activatePlayer() {
     player.update(url: url, startTime: startTime)
 
+#if os(iOS) || os(tvOS)
     setAudioSessionCategory(to: .playback)
-
+#endif
+    
     commandCenterManager.start()
 
     if playImmediately {
@@ -86,8 +88,10 @@ public struct VideoPlayerView: View {
 
       commandCenterManager.stop()
 
+#if os(iOS) || os(tvOS)
       setAudioSessionCategory(to: .ambient)
-
+#endif
+      
       removeObserver()
     }
   }
@@ -103,6 +107,7 @@ public struct VideoPlayerView: View {
     NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
   }
 
+#if os(iOS) || os(tvOS)
   private func setAudioSessionCategory(to value: AVAudioSession.Category) {
     let audioSession = AVAudioSession.sharedInstance()
 
@@ -116,6 +121,7 @@ public struct VideoPlayerView: View {
       print("Setting category to AVAudioSessionCategoryPlayback failed.")
     }
   }
+#endif
 
   public func reload(with url: URL) {
     player.url = url
