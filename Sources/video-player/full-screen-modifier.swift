@@ -1,11 +1,5 @@
 import SwiftUI
 
-#if canImport(UIKit)
-
-import UIKit
-
-#endif
-
 public struct FullScreenModifier: ViewModifier {
   @Binding private var flag: Bool
 
@@ -22,12 +16,6 @@ public struct FullScreenModifier: ViewModifier {
 #if os(iOS) || os(tvOS)
       .if(flag) { view in
         view.navigationBarHidden(true)
-      }
-#endif
-    
-#if canImport(UIKit)
-      .if(UIDevice.isAppleTV) { view in
-        view.edgesIgnoringSafeArea(.all)
       }
 #endif
   }
