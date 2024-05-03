@@ -4,18 +4,29 @@ import media_player
 import swiper
 
 public struct VideoPlayerView: View {
+  var videoPlayerViewHelper: VideoPlayerViewHelper {
+    VideoPlayerViewHelper(player: player, url: $itemSelectionState.url, name: $itemSelectionState.name,
+        startTime: Binding.constant(selectionManager.currentTime))
+  }
+
   @State private var isFullScreen = false
 
   public var swipeChanged: (SwipeModifier.Directions) -> Void = { _ in }
 
-  private var videoPlayerViewHelper: VideoPlayerViewHelper
+  public var player: MediaPlayer
+  @Binding private var url: URL?
+  @Binding public var name: String
+  @Binding private var startTime: Double
   private var enableSwipe: Bool
   private var onMediaCompleted: (Bool) -> Void
 
-  public init(videoPlayerViewHelper: VideoPlayerViewHelper, enableSwipe: Bool = false, onMediaCompleted: @escaping (Bool) -> Void) {
-    self.videoPlayerViewHelper = videoPlayerViewHelper
+  public init(player: MediaPlayer, url: Binding<URL?>, name: Binding<String>, startTime: Binding<Double>,
+     enableSwipe: Bool = false, onMediaCompleted: @escaping (Bool) -> Void) {
+    self.player = player
+    self._url = url
+    self._name = name
+    self._startTime = startTime
     self.enableSwipe = enableSwipe
-
     self.onMediaCompleted = onMediaCompleted
 
     videoPlayerViewHelper.activatePlayer()
@@ -23,8 +34,8 @@ public struct VideoPlayerView: View {
 
   public var body: some View {
     GeometryReader { geometry in
-      VideoPlayer(player: videoPlayerViewHelper.player.player) {
-        VideoPlayerOverlay(name: videoPlayerViewHelper.$name, size: geometry.size, isFullScreen: $isFullScreen)
+      VideoPlayer(player: player.player) {
+        VideoPlayerOverlay(name: $name, size: geometry.size, isFullScreen: $isFullScreen)
       }
         .fullScreen($isFullScreen)
         .if(enableSwipe) { view in
