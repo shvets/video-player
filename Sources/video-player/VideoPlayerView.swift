@@ -49,6 +49,9 @@ public struct VideoPlayerView: View {
             }
           }
         }
+      .onDisappear {
+        videoPlayerViewHelper.deactivatePlayer()
+      }
     }
   }
 }
