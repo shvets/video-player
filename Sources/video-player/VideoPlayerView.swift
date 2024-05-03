@@ -5,8 +5,7 @@ import swiper
 
 public struct VideoPlayerView: View {
   var videoPlayerViewHelper: VideoPlayerViewHelper {
-    VideoPlayerViewHelper(player: player, url: $itemSelectionState.url, name: $itemSelectionState.name,
-        startTime: Binding.constant(selectionManager.currentTime))
+    VideoPlayerViewHelper(player: player, url: $url, name: $name, startTime: $startTime)
   }
 
   @State private var isFullScreen = false
