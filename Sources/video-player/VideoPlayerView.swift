@@ -21,16 +21,16 @@ public struct VideoPlayerView: View {
   private var onMediaCompleted: (Bool) -> Void
 
   public init(player: MediaPlayer, url: Binding<URL?>, name: Binding<String>, startTime: Binding<Double>,
-              onMediaCompleted: @escaping (Bool) -> Void,
-              nextTrack: @escaping () -> Void, previousTrack: @escaping () -> Void) {
+              nextTrack: @escaping () -> Void, previousTrack: @escaping () -> Void,
+              onMediaCompleted: @escaping (Bool) -> Void) {
     self.player = player
     self._url = url
     self._name = name
     self._startTime = startTime
     //self.enableSwipe = enableSwipe
-    self.onMediaCompleted = onMediaCompleted
     self.nextTrack = nextTrack
     self.previousTrack = previousTrack
+    self.onMediaCompleted = onMediaCompleted
 
     videoPlayerViewHelper.activatePlayer()
   }
