@@ -4,7 +4,7 @@ import media_player
 
 public class VideoPlayerViewHelper {
   var commandCenterManager: CommandCenterManager {
-    CommandCenterManager(player: player)
+    CommandCenterManager(player: player, nextTrack: nextTrack, previousTrack: previousTrack)
   }
 
   public var player: MediaPlayer
@@ -13,15 +13,20 @@ public class VideoPlayerViewHelper {
   @Binding private var startTime: Double
   private var playImmediately: Bool
   private var stopOnLeave: Bool
+  var nextTrack: () -> Void
+  var previousTrack: () -> Void
 
   public init(player: MediaPlayer, url: Binding<URL?>, name: Binding<String>, startTime: Binding<Double>,
-              playImmediately: Bool = true, stopOnLeave: Bool = true) {
+              playImmediately: Bool = true, stopOnLeave: Bool = true,
+              nextTrack: @escaping () -> Void, previousTrack: @escaping () -> Void) {
     self.player = player
     self._url = url
     self._name = name
     self._startTime = startTime
     self.playImmediately = playImmediately
     self.stopOnLeave = stopOnLeave
+    self.nextTrack = nextTrack
+    self.previousTrack = previousTrack
   }
 
   func activatePlayer() {

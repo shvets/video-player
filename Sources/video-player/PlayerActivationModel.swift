@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 open class PlayerActivationModel: ObservableObject {
   @Published public var playerActivated: Bool = false
