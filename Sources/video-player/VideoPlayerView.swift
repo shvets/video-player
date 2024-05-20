@@ -2,9 +2,9 @@ import SwiftUI
 import AVKit
 import media_player
 
-public struct VideoPlayerView: View {
-  var videoPlayerViewHelper: VideoPlayerViewHelper {
-    VideoPlayerViewHelper(player: player, url: $url, name: $name, startTime: $startTime, nextTrack: nextTrack, previousTrack: previousTrack)
+public struct VideoPlayerView<T>: View {
+  var videoPlayerViewHelper: VideoPlayerViewHelper<T> {
+    VideoPlayerViewHelper(player: player, url: $url, name: $name, startTime: $startTime, nextMedia: nextMedia, previousMedia: previousMedia)
   }
 
   @State private var isFullScreen = false
@@ -15,21 +15,21 @@ public struct VideoPlayerView: View {
   @Binding private var url: URL?
   @Binding public var name: String
   @Binding private var startTime: Double
-  var nextTrack: () -> Void
-  var previousTrack: () -> Void
+  var nextMedia: () -> T?
+  var previousMedia: () -> T?
   //private var enableSwipe: Bool
   private var onMediaCompleted: (Bool) -> Void
 
   public init(player: MediaPlayer, url: Binding<URL?>, name: Binding<String>, startTime: Binding<Double>,
-              nextTrack: @escaping () -> Void, previousTrack: @escaping () -> Void,
+              nextMedia: @escaping () -> T?, previousMedia: @escaping () -> T?,
               onMediaCompleted: @escaping (Bool) -> Void) {
     self.player = player
     self._url = url
     self._name = name
     self._startTime = startTime
     //self.enableSwipe = enableSwipe
-    self.nextTrack = nextTrack
-    self.previousTrack = previousTrack
+    self.nextMedia = nextMedia
+    self.previousMedia = previousMedia
     self.onMediaCompleted = onMediaCompleted
 
     videoPlayerViewHelper.activatePlayer()
