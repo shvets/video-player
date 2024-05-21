@@ -4,7 +4,8 @@ import media_player
 
 public struct VideoPlayerView<T>: View {
   var videoPlayerViewHelper: VideoPlayerViewHelper<T> {
-    VideoPlayerViewHelper(player: player, url: $url, name: $name, startTime: $startTime, nextMedia: nextMedia, previousMedia: previousMedia)
+    VideoPlayerViewHelper(player: player, url: $url, name: $name, startTime: $startTime, nextMedia: nextMedia,
+        previousMedia: previousMedia, update: update)
   }
 
   @State private var isFullScreen = false
@@ -17,11 +18,12 @@ public struct VideoPlayerView<T>: View {
   @Binding private var startTime: Double
   var nextMedia: () -> T?
   var previousMedia: () -> T?
+  var update: (T, Double) -> Void
   //private var enableSwipe: Bool
   private var onMediaCompleted: (Bool) -> Void
 
   public init(player: MediaPlayer, url: Binding<URL?>, name: Binding<String>, startTime: Binding<Double>,
-              nextMedia: @escaping () -> T?, previousMedia: @escaping () -> T?,
+              nextMedia: @escaping () -> T?, previousMedia: @escaping () -> T?, update: @escaping (T, Double) -> Void,
               onMediaCompleted: @escaping (Bool) -> Void) {
     self.player = player
     self._url = url
@@ -30,6 +32,7 @@ public struct VideoPlayerView<T>: View {
     //self.enableSwipe = enableSwipe
     self.nextMedia = nextMedia
     self.previousMedia = previousMedia
+    self.update = update
     self.onMediaCompleted = onMediaCompleted
 
     videoPlayerViewHelper.activatePlayer()
