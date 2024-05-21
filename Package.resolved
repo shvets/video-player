@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "media-player",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/shvets/media-player",
+      "state" : {
+        "revision" : "7c02aa349b24bb4ac9d5059e14b468525486a7e3",
+        "version" : "1.1.2"
+      }
+    }
+  ],
+  "version" : 2
+}
