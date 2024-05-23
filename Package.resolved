@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
+      "identity" : "item-navigator",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/shvets/item-navigator",
+      "state" : {
+        "revision" : "ce616ad622c4e6a205b1f4ae716069196f278ea5",
+        "version" : "1.0.1"
+      }
+    },
+    {
       "identity" : "media-player",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shvets/media-player",
       "state" : {
-        "revision" : "7c02aa349b24bb4ac9d5059e14b468525486a7e3",
-        "version" : "1.1.2"
+        "revision" : "3edc519f1ca1c0bef1a42c47a70d89c9f59d770d",
+        "version" : "1.2.2"
       }
     }
   ],

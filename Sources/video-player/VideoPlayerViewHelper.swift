@@ -1,34 +1,30 @@
 import SwiftUI
 import AVKit
 import media_player
+import item_navigator
 
-public class VideoPlayerViewHelper<T> {
+public class VideoPlayerViewHelper<T: Identifiable> {
   var commandCenterManager: CommandCenterManager<T> {
-    CommandCenterManager<T>(player: player, nextMedia: nextMedia, previousMedia: previousMedia, update: update)
+    CommandCenterManager<T>(player: player, navigator: navigator)
   }
 
   public var player: MediaPlayer
+  var navigator: ItemNavigator<T>
   @Binding private var url: URL?
   @Binding public var name: String
   @Binding private var startTime: Double
   private var playImmediately: Bool
   private var stopOnLeave: Bool
-  var nextMedia: () -> T?
-  var previousMedia: () -> T?
-  var update: (T, Double) -> Void
 
-  public init(player: MediaPlayer, url: Binding<URL?>, name: Binding<String>, startTime: Binding<Double>,
-              playImmediately: Bool = true, stopOnLeave: Bool = true,
-              nextMedia: @escaping () -> T?, previousMedia: @escaping () -> T?, update: @escaping (T, Double) -> Void) {
+  public init(player: MediaPlayer, navigator: ItemNavigator<T>, url: Binding<URL?>, name: Binding<String>,
+              startTime: Binding<Double>, playImmediately: Bool = true, stopOnLeave: Bool = true) {
     self.player = player
+    self.navigator = navigator
     self._url = url
     self._name = name
     self._startTime = startTime
     self.playImmediately = playImmediately
     self.stopOnLeave = stopOnLeave
-    self.nextMedia = nextMedia
-    self.previousMedia = previousMedia
-    self.update = update
   }
 
   func activatePlayer() {
