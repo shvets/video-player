@@ -38,7 +38,6 @@ public struct VideoPlayerOverlay: View {
 
       Spacer()
     }
-    //.frame(width: geometry.size.width, height: geometry.size.height)
   }
 
 #endif

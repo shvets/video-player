@@ -41,7 +41,7 @@ public class VideoPlayerViewHelper<T: Identifiable> {
         player.play()
       }
 
-      addObserver()
+     // addObserver()
     }
   }
 
@@ -55,20 +55,20 @@ public class VideoPlayerViewHelper<T: Identifiable> {
       setAudioSessionCategory(to: .ambient)
       #endif
 
-      removeObserver()
+      //removeObserver()
     }
   }
 
-  func addObserver() {
-    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.player.currentItem, queue: nil) { _ in
-//      player.seek(to: .zero)
-//      player.play()
-    }
-  }
+//  func addObserver() {
+//    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.player.currentItem, queue: nil) { _ in
+////      player.seek(to: .zero)
+////      player.play()
+//    }
+//  }
 
-  func removeObserver() {
-    NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
-  }
+//  func removeObserver() {
+//    NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
+//  }
 
   #if os(iOS) || os(tvOS)
   private func setAudioSessionCategory(to value: AVAudioSession.Category) {
