@@ -2,7 +2,6 @@ import SwiftUI
 
 public struct VideoPlayerOverlay: View {
   @Binding var name: String
-  var size: CGSize
   @Binding var isFullScreen: Bool
 
   public var body: some View {
@@ -46,16 +45,18 @@ public struct VideoPlayerOverlay: View {
 
   @ViewBuilder
   public func layout() -> some View {
-    HStack {
-      Spacer()
+    GeometryReader { geometry in
+      HStack {
+        Spacer()
 
-      Text(name)
-        .foregroundColor(.white)
-        .background(Color.black.opacity(0))
+        Text(name)
+          .foregroundColor(.white)
+          .background(Color.black.opacity(0))
 
-      Spacer()
+        Spacer()
+      }
+        .position(x: geometry.size.width * 0.5, y: -50)
     }
-      .position(x: size.width * 0.5, y: -50)
   }
 
 #endif
