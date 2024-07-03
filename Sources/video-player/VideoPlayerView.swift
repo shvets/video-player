@@ -4,8 +4,8 @@ import media_player
 import item_navigator
 
 public struct VideoPlayerView<T: Identifiable>: View {
-  var videoPlayerViewHelper: VideoPlayerViewHelper<T> {
-    VideoPlayerViewHelper<T>(player: player, navigator: navigator, url: $url, name: $name, startTime: $startTime)
+  var commandCenterManager: CommandCenterManager<T> {
+    CommandCenterManager<T>(player: player, navigator: navigator)
   }
 
   @State private var isFullScreen = false
@@ -13,27 +13,55 @@ public struct VideoPlayerView<T: Identifiable>: View {
   public var player: MediaPlayer
   var navigator: ItemNavigator<T>
   @Binding public var name: String
-  @Binding private var url: URL?
-  @Binding private var startTime: Double
 
-  public init(player: MediaPlayer, navigator: ItemNavigator<T>, name: Binding<String>, url: Binding<URL?>,
-              startTime: Binding<Double>) {
+  public init(player: MediaPlayer, navigator: ItemNavigator<T>, name: Binding<String>) {
     self.player = player
     self.navigator = navigator
     self._name = name
-    self._url = url
-    self._startTime = startTime
-
-    videoPlayerViewHelper.activatePlayer()
   }
 
   public var body: some View {
     VideoPlayer(player: player.player) {
       VideoPlayerOverlay(name: $name, isFullScreen: $isFullScreen)
     }
+      .onAppear {
+        activatePlayer()
+      }
+      .onDisappear {
+        deactivatePlayer()
+      }
       .fullScreen($isFullScreen)
-    .onDisappear {
-      videoPlayerViewHelper.deactivatePlayer()
+  }
+
+  public func activatePlayer() {
+    #if os(iOS) || os(tvOS)
+    setAudioSessionCategory(to: .playback)
+    #endif
+
+    commandCenterManager.start()
+  }
+
+  public func deactivatePlayer() {
+    commandCenterManager.stop()
+
+    #if os(iOS) || os(tvOS)
+    setAudioSessionCategory(to: .ambient)
+    #endif
+  }
+
+  #if os(iOS) || os(tvOS)
+  private func setAudioSessionCategory(to value: AVAudioSession.Category) {
+    let audioSession = AVAudioSession.sharedInstance()
+
+    do {
+      try audioSession.setCategory(value)
+      try audioSession.setMode(AVAudioSession.Mode.default)
+      //try audioSession.setMode(AVAudioSession.Mode.moviePlayback)
+      try audioSession.setActive(true)
+      try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+    } catch {
+      print("Setting category to AVAudioSessionCategoryPlayback failed.")
     }
   }
+  #endif
 }
