@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shvets/item-navigator",
       "state" : {
-        "revision" : "ce616ad622c4e6a205b1f4ae716069196f278ea5",
-        "version" : "1.0.1"
+        "revision" : "ebbc5812c6c6f1b2bf0e9bd8e724dc0043d76163",
+        "version" : "1.0.7"
       }
     },
     {
@@ -14,8 +14,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shvets/media-player",
       "state" : {
-        "revision" : "3edc519f1ca1c0bef1a42c47a70d89c9f59d770d",
-        "version" : "1.2.2"
+        "revision" : "0936475189f93ad1cb42c41692a08dc866aa1014",
+        "version" : "2.0.1"
+      }
+    },
+    {
+      "identity" : "swift-ui-commons",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/shvets/swift-ui-commons",
+      "state" : {
+        "revision" : "851970a61836d01fd65b3e6c3ae69e8df03d77c7",
+        "version" : "1.0.1"
       }
     }
   ],

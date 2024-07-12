@@ -1,4 +1,5 @@
 import SwiftUI
+import swift_ui_commons
 
 public struct FullScreenModifier: ViewModifier {
   @Binding private var flag: Bool
