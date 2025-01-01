@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shvets/media-player",
       "state" : {
-        "revision" : "0936475189f93ad1cb42c41692a08dc866aa1014",
-        "version" : "2.0.1"
+        "revision" : "ca61ffdb76068f3012c00e92f565f2c0703b8440",
+        "version" : "2.0.3"
       }
     },
     {
