@@ -1,5 +1,5 @@
 {
-  "originHash" : "030e87e27d40399ef6b059572a04cef2cb639a547a015543f52425531b244575",
+  "originHash" : "e4e21e04f3aa677337dd50d9c4725f0e18f9f0e080b494675769579b8f382856",
   "pins" : [
     {
       "identity" : "item-navigator",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shvets/media-player",
       "state" : {
-        "revision" : "6fbda580c05f2de471116b3047131f9c702dd62a",
-        "version" : "2.1.0"
+        "revision" : "4b9f9d49a9f39bbad7dc71260c0c8f5f90f3ea17",
+        "version" : "2.1.7"
       }
     },
     {
